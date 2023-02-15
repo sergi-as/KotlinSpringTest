@@ -1,0 +1,18 @@
+curl -X POST --location "http://localhost:8080" -H "Content-Type: application/json" -d "{ \"text\": \"Hello!\" }"
+
+curl -X POST --location "http://localhost:8080" -H "Content-Type: application/json" -d "{ \"text\": \"Bonjour!\" }"
+
+curl -X POST --location "http://localhost:8080" -H "Content-Type: application/json" -d "{ \"text\": \"Privet!\" }"
+
+curl -X DELETE --location "http://localhost:8080" -H "Content-Type: application/json" -d "{  \"id\": \"dc93450c-92e9-3fea-be0d-59a5824d8441\"  ,\"text\": \"\" }" -i
+
+curl -X GET --location "http://localhost:8080/952d2c56-d048-3958-b367-47bcdd98590d"
+curl -X GET --location "http://localhost:8080"
+
+First, start PostgreSQL database by running this command (assuming you have Docker installed on the machine):
+
+    docker run -e POSTGRES_PASSWORD=password -e POSTGRES_USER=sa -p 5432:5432 -d postgres
+
+Now you can launch Spring Boot application:
+
+    ./gradlew bootRun
