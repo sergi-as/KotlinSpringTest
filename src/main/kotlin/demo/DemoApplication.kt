@@ -38,6 +38,9 @@ class MessageResource(val service:MessageService){
 	@GetMapping("/")
 	fun index(): List<Message> = service.findMessages()
 
+	@GetMapping("/a")
+	fun create() = service.create()
+
 	@GetMapping("/{id}")
 	fun index(@PathVariable id: String):Message = service.findMessageById(id)?: throw ResponseStatusException(HttpStatus.NOT_FOUND,"Message not found")
 
@@ -81,6 +84,17 @@ class MessageService(val db: JdbcTemplate) {
 
 	fun findMessages(): List<Message> =db.query("select * from messages",myRowMapper())
 	fun cleanup()=db.update("delete from messages")
+	fun create(){
+		db.update("""
+			CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+			CREATE TABLE IF NOT EXISTS messages (
+			    id varchar(50) DEFAULT uuid_generate_v4()::text,
+			    text VARCHAR(500),
+			    CONSTRAINT id_messages PRIMARY KEY (id)
+			);
+		""".trimIndent())
+	}
 
 
 }

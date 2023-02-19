@@ -2,15 +2,14 @@ version: "3.8"
 services:
   postgres:
     image: postgres:15.2-alpine
-    network_mode: bridge
-    container_name: postgresDocker
+    container_name: postgres
 
     ports:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_USER=docker
-      - POSTGRES_DB=docker
+      - POSTGRES_DB=postgres
 
   demmo:
     build:
@@ -22,9 +21,8 @@ services:
       - 8080
     depends_on:
       - postgres
-    network_mode: bridge
     environment:
-      DB_URL: 'jdbc:postgresql://127.0.0.1:5432/docker'
+      DB_URL: 'jdbc:postgresql://postgres:5432/postgres'
       DB_USER: 'docker'
       DB_PASSWORD: 'docker'
     working_dir: /app
